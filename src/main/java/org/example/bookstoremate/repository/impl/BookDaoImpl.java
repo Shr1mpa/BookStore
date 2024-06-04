@@ -1,6 +1,7 @@
 package org.example.bookstoremate.repository.impl;
 
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import org.example.bookstoremate.model.Book;
 import org.example.bookstoremate.repository.BookRepository;
 import org.hibernate.Session;
@@ -8,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public class BookDaoImpl implements BookRepository {

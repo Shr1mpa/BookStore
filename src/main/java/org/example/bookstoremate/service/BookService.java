@@ -1,9 +1,10 @@
 package org.example.bookstoremate.service;
 
-import org.example.bookstoremate.model.Book;
 import java.util.List;
+import org.example.bookstoremate.model.Book;
 
 public interface BookService {
     Book save(Book book);
+
     List<Book> findAll();
 }
