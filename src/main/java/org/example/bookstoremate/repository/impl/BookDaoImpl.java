@@ -3,6 +3,7 @@ package org.example.bookstoremate.repository.impl;
 import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.Optional;
+import org.example.bookstoremate.exception.DataProcessingException;
 import org.example.bookstoremate.model.Book;
 import org.example.bookstoremate.repository.BookRepository;
 import org.hibernate.Session;
@@ -34,7 +35,7 @@ public class BookDaoImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t insert book into DB "
+            throw new DataProcessingException("Can`t insert book into DB "
                     + book, e);
         } finally {
             if (session != null) {
@@ -51,7 +52,7 @@ public class BookDaoImpl implements BookRepository {
             criteriaQuery.from(Book.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get all books", e);
+            throw new DataProcessingException("Can`t get all books", e);
         }
     }
 
@@ -59,6 +60,8 @@ public class BookDaoImpl implements BookRepository {
     public Optional<Book> findById(long id) {
         try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(Book.class, id));
+        } catch (Exception e) {
+            throw new DataProcessingException("Can`t get book by id " + id, e);
         }
     }
 }
