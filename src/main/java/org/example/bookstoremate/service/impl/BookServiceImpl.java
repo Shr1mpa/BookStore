@@ -1,28 +1,41 @@
 package org.example.bookstoremate.service.impl;
 
 import java.util.List;
+import java.util.Random;
+import lombok.RequiredArgsConstructor;
+import org.example.bookstoremate.dto.BookDto;
+import org.example.bookstoremate.dto.CreateBookRequestDto;
+import org.example.bookstoremate.exception.EntityNotFoundException;
+import org.example.bookstoremate.mapper.BookMapper;
 import org.example.bookstoremate.model.Book;
 import org.example.bookstoremate.repository.BookRepository;
 import org.example.bookstoremate.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
-    @Autowired
-    public BookServiceImpl(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    @Override
+    public BookDto save(CreateBookRequestDto requestDto) {
+        Book book = bookMapper.toModel(requestDto);
+        book.setIsbn(String.valueOf((new Random()).nextInt(1000)));
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
-    public Book save(Book book) {
-        return bookRepository.save(book);
+    public List<BookDto> findAll() {
+        return bookRepository.findAll().stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 
     @Override
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public BookDto findById(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Book with id " + id + " not found"));
+        return bookMapper.toDto(book);
     }
 }
