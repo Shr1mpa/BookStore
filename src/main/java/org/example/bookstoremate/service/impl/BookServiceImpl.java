@@ -43,20 +43,16 @@ public class BookServiceImpl implements BookService {
     public BookDto updateBook(Long id, BookDto bookDto) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
-        book.setTitle(bookDto.getTitle());
-        book.setAuthor(bookDto.getAuthor());
-        book.setPrice(bookDto.getPrice());
-        book.setDescription(bookDto.getDescription());
-        book.setCoverImage(bookDto.getCoverImage());
-        Book updatedBook = bookRepository.save(book);
-        return bookMapper.toDto(updatedBook);
+
+        bookMapper.updateBookFromDto(bookDto, book);
+
+        bookRepository.save(book);
+
+        return bookMapper.toDto(book);
     }
 
     @Override
     public void deleteBook(Long id) {
-        if (!bookRepository.existsById(id)) {
-            throw new EntityNotFoundException("Book with id " + id + " not found");
-        }
         bookRepository.deleteById(id);
     }
 }

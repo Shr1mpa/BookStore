@@ -1,12 +1,10 @@
 package org.example.bookstoremate.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstoremate.dto.BookDto;
 import org.example.bookstoremate.dto.CreateBookRequestDto;
 import org.example.bookstoremate.service.BookService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,22 +36,12 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto) {
-        try {
-            BookDto book = bookService.updateBook(id, bookDto);
-            return ResponseEntity.ok(book);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public BookDto updateBook(@PathVariable Long id, @RequestBody BookDto bookDto) {
+        return bookService.updateBook(id, bookDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        try {
-            bookService.deleteBook(id);
-            return ResponseEntity.noContent().build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public void deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
     }
 }
