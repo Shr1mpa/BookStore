@@ -9,9 +9,11 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SoftDelete;
 
 @Entity
 @Table(name = "books")
+@SoftDelete(columnName = "isDeleted")
 @Getter
 @Setter
 public class Book {
