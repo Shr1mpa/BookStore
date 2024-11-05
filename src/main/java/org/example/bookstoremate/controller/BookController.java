@@ -3,8 +3,12 @@ package org.example.bookstoremate.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstoremate.dto.BookDto;
+import org.example.bookstoremate.dto.BookSearchParams;
 import org.example.bookstoremate.dto.CreateBookRequestDto;
 import org.example.bookstoremate.service.BookService;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,5 +47,11 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> search(BookSearchParams searchParams,
+                                @ParameterObject @PageableDefault Pageable pageable) {
+        return bookService.search(searchParams, pageable);
     }
 }
