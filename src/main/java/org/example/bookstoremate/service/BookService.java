@@ -4,6 +4,7 @@ import java.util.List;
 import org.example.bookstoremate.dto.BookDto;
 import org.example.bookstoremate.dto.BookSearchParams;
 import org.example.bookstoremate.dto.CreateBookRequestDto;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
     BookDto save(CreateBookRequestDto requestDto);
@@ -16,5 +17,5 @@ public interface BookService {
 
     void deleteBook(Long id);
 
-    List<BookDto> search(BookSearchParams searchParams);
+    List<BookDto> search(BookSearchParams searchParams, Pageable pageable);
 }

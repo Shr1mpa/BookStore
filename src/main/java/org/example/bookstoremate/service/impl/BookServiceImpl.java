@@ -12,6 +12,7 @@ import org.example.bookstoremate.model.Book;
 import org.example.bookstoremate.repository.BookRepository;
 import org.example.bookstoremate.repository.specification.book.BookSpecificationBuilder;
 import org.example.bookstoremate.service.BookService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -59,9 +60,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> search(BookSearchParams searchParams) {
+    public List<BookDto> search(BookSearchParams searchParams, Pageable pageable) {
         Specification<Book> specification = bookSpecificationBuilder.build(searchParams);
-        return bookRepository.findAll(specification).stream()
+        return bookRepository.findAll(specification, pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }

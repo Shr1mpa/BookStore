@@ -6,6 +6,9 @@ import org.example.bookstoremate.dto.BookDto;
 import org.example.bookstoremate.dto.BookSearchParams;
 import org.example.bookstoremate.dto.CreateBookRequestDto;
 import org.example.bookstoremate.service.BookService;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,7 +50,8 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public List<BookDto> search(BookSearchParams searchParams) {
-        return bookService.search(searchParams);
+    public List<BookDto> search(BookSearchParams searchParams,
+                                @ParameterObject @PageableDefault Pageable pageable) {
+        return bookService.search(searchParams, pageable);
     }
 }
